@@ -1,10 +1,89 @@
-//import React from "react";
+import React from "react";
 
 export default function Home() {
   return (
-    <section>
-      <h1 className="text-4xl font-bold mb-4">Welcome to FrameFresh</h1>
-      <p>This is the home page.</p>
-    </section>
+    <main className="min-h-screen bg-gray-50 pt-[125px] md:pt-[240px] w-full">
+
+      {/* Hero Section */}
+      <section className="relative bg-gradient-to-r from-blue-500 to-cyan-400 text-white flex flex-col justify-center items-center text-center py-32 px-6 md:px-12 overflow-hidden w-full">
+        <h1
+          className="text-5xl md:text-6xl font-extrabold mb-6 animate-fadeInUp max-w-7xl"
+          style={{ animationDelay: "0.2s", animationFillMode: "forwards" }}
+        >
+          Fresh & Natural Products <br /> Delivered To Your Doorstep
+        </h1>
+        <p
+          className="max-w-4xl text-lg md:text-xl mb-10 opacity-80 animate-fadeInUp"
+          style={{ animationDelay: "0.4s", animationFillMode: "forwards" }}
+        >
+          Discover the best organic goods and pure ingredients directly from trusted sources.
+        </p>
+        <button
+          className="bg-white text-blue-600 font-semibold px-8 py-3 rounded-lg shadow-lg hover:shadow-xl hover:bg-gray-100 transition-transform transform hover:scale-105 animate-fadeInUp"
+          style={{ animationDelay: "0.6s", animationFillMode: "forwards" }}
+        >
+          Shop Now
+        </button>
+
+        {/* Decorative circles */}
+        <div
+          className="absolute -bottom-24 -right-24 w-72 h-72 rounded-full bg-white opacity-20 blur-3xl animate-pulseSlow"
+          aria-hidden="true"
+        ></div>
+        <div
+          className="absolute -top-24 -left-24 w-72 h-72 rounded-full bg-white opacity-10 blur-2xl animate-pulseSlow"
+          aria-hidden="true"
+        ></div>
+      </section>
+
+      {/* Section 1 - About */}
+      <section className="w-full px-6 py-16">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-3xl font-bold mb-6 text-gray-800">About FrameFresh</h2>
+          <p className="text-gray-600 leading-relaxed text-lg max-w-4xl">
+            FrameFresh is committed to bringing you the freshest and highest quality organic products.
+            We partner with local farmers and trusted suppliers to ensure that everything you get is
+            natural, healthy, and sustainably sourced.
+          </p>
+        </div>
+      </section>
+
+      {/* Section 2 - Featured Products */}
+      <section className="w-full px-6 py-16 bg-white rounded-lg shadow-lg">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-3xl font-bold mb-8 text-gray-800 text-center">Featured Products</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+            {[
+              {
+                name: "Organic Honey",
+                desc: "Pure, raw honey harvested from sustainable apiaries.",
+                img: "/image/honey.jpg",
+              },
+              {
+                name: "Cold-Pressed Mustard Oil",
+                desc: "Rich in flavor and nutrients, perfect for cooking and dressing.",
+                img: "/image/mustard-oil.jpg",
+              },
+              {
+                name: "Natural Dates",
+                desc: "Sweet and chewy dates packed with natural energy.",
+                img: "/image/dates.jpg",
+              },
+            ].map(({ name, desc, img }) => (
+              <div
+                key={name}
+                className="bg-gray-50 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 cursor-pointer"
+              >
+                <img src={img} alt={name} className="w-full h-48 object-cover" />
+                <div className="p-5">
+                  <h3 className="font-semibold text-xl mb-2 text-gray-900">{name}</h3>
+                  <p className="text-gray-700">{desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </main>
   );
 }

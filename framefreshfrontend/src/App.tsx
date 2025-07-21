@@ -1,5 +1,7 @@
+// App.jsx
 import React from "react";
 import { Routes, Route } from "react-router-dom";
+
 import Navbar from "./components/Navbar";
 
 import Home from "./pages/Home";
@@ -20,15 +22,18 @@ import OrganicZone from "./pages/OrganicZone";
 
 export default function App() {
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50 text-gray-800">
+     <div className="min-h-screen flex flex-col bg-gray-50 text-gray-800">
+      {/* Navbar/header */}
       <Navbar />
-      <main className="flex-grow max-w-5xl mx-auto p-6">
+
+      {/* Main content: grows to fill remaining vertical space */}
+      <main >
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
 
-          {/* OFFER ZONE routes */}
+          {/* Offer Zone Routes */}
           <Route path="/best-seller" element={<BestSeller />} />
           <Route path="/mustard-oil" element={<MustardOil />} />
           <Route path="/ghee" element={<Ghee />} />
@@ -42,6 +47,8 @@ export default function App() {
           <Route path="/organic-zone" element={<OrganicZone />} />
         </Routes>
       </main>
+
+      {/* Footer */}
       <footer className="bg-white border-t border-gray-200 p-4 text-center text-sm text-gray-500">
         &copy; 2025 FrameFresh. All rights reserved.
       </footer>
