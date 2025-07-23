@@ -5,7 +5,12 @@ module.exports = {
     "./src/**/*.{ts,tsx}",  // scan all ts and tsx files in src
   ],
   theme: {
-    extend: {},
+    extend: {
+
+       screens: {
+        lg1180: "1180px", 
+      },
+    },
   },
   plugins: [],
 }

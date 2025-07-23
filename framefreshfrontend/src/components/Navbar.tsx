@@ -1,19 +1,22 @@
 import { useState, useEffect } from "react";
+import type { KeyboardEvent } from "react"; // <--- type-only import
 import { Link } from "react-router-dom";
 import { FaSearch, FaUser, FaShoppingCart, FaBars } from "react-icons/fa";
+
+type NavLink = [string, string];
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
-  // Detect scroll to add blur & shadow
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const navLinks = [
+  const navLinks: NavLink[] = [
     ["Best Seller", "/best-seller"],
     ["Mustard Oil", "/mustard-oil"],
     ["Ghee (ঘি)", "/ghee"],
@@ -28,6 +31,17 @@ export default function Navbar() {
     ["About", "/about"],
     ["Contact", "/contact"],
   ];
+
+  const handleTap = (index: number) => {
+    setActiveIndex((prev) => (prev === index ? null : index));
+  };
+
+  const handleKeyDown = (e: KeyboardEvent<HTMLLIElement>, index: number) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      handleTap(index);
+    }
+  };
 
   return (
     <header
@@ -45,11 +59,11 @@ export default function Navbar() {
       </div>
 
       {/* Middle Bar */}
-      <div className="flex items-center justify-between px-6 py-3 border-b border-gray-200 gap-6">
-        {/* Left: Hamburger + Search */}
-        <div className="flex items-center gap-5 text-gray-700 text-xl">
+      <div className="flex items-center px-4 lg1180:px-6 py-3 border-b border-gray-200">
+        {/* Left */}
+        <div className="flex items-center gap-4 w-1/3 justify-start text-gray-700 text-lg lg1180:text-xl">
           <button
-            className="md:hidden p-2 rounded-md hover:bg-blue-100 active:bg-blue-200 transition-transform duration-300"
+            className="lg1180:hidden p-2 rounded-md hover:bg-blue-100 active:bg-blue-200 transition-transform duration-300"
             onClick={() => setMenuOpen((prev) => !prev)}
             aria-label="Toggle menu"
             style={{
@@ -63,70 +77,83 @@ export default function Navbar() {
           <div
             className="hover:text-blue-600 cursor-pointer transition-transform duration-300 hover:scale-110"
             aria-label="Search"
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") e.preventDefault();
+            }}
           >
             <FaSearch />
           </div>
         </div>
 
         {/* Center: Logo */}
-        <div className="flex-1 text-center">
-          <Link
-            to="/"
-            className="inline-block"
-            style={{ width: "150px", height: "auto" }}
-          >
+        <div className="w-1/3 flex justify-center">
+          <Link to="/" className="inline-block">
             <img
               src="/image/clogo2.png"
               alt="FrameFresh Logo"
-              className="mx-auto"
-              style={{ display: "block", maxWidth: "100%", height: "auto" }}
+              className="mx-auto max-w-[120px] sm:max-w-[140px] lg1180:max-w-[150px] h-auto"
             />
           </Link>
         </div>
 
-        {/* Right: User + Cart */}
-        <div className="flex items-center gap-6 text-gray-700 text-xl">
-          <div className="hover:text-blue-600 cursor-pointer transition-transform duration-300 hover:scale-110">
+        {/* Right */}
+        <div className="flex items-center gap-4 w-1/3 justify-end text-gray-700 text-lg lg1180:text-xl">
+          <div className="hover:text-blue-600 cursor-pointer transition-transform duration-300 hover:scale-110" role="button" tabIndex={0}>
             <FaUser />
           </div>
 
-          <div className="hover:text-blue-600 cursor-pointer transition-transform duration-300 hover:scale-110">
+          <div className="hover:text-blue-600 cursor-pointer transition-transform duration-300 hover:scale-110" role="button" tabIndex={0}>
             <FaShoppingCart />
           </div>
         </div>
       </div>
 
-      {/* Main Navbar */}
+      {/* Navigation Menu */}
       <nav
-        className={`bg-white border-b border-gray-200 md:static md:overflow-visible transition-[max-height,opacity,padding] duration-500 ease-in-out ${
+        className={`bg-white border-b border-gray-200 lg1180:static lg1180:overflow-visible transition-[max-height,opacity,padding] duration-500 ease-in-out ${
           menuOpen ? "max-h-screen opacity-100 py-2 px-4" : "max-h-0 opacity-0 px-4"
-        } md:max-h-full md:opacity-100 md:px-0`}
+        } lg1180:max-h-full lg1180:opacity-100 lg1180:px-0`}
         style={{ maxWidth: "1200px", margin: "0 auto" }}
       >
         <ul
-          className={`font-medium text-gray-700 space-y-1 md:space-y-0 md:flex md:flex-wrap md:justify-center md:gap-8 ${
+          className={`font-medium text-gray-700 space-y-1 lg1180:space-y-0 lg1180:flex lg1180:flex-wrap lg1180:justify-center lg1180:gap-8 ${
             menuOpen ? "text-left" : ""
           }`}
         >
-          {navLinks.map(([label, link]) => (
+          {navLinks.map(([label, link], index) => (
             <li
               key={link}
-              className={`py-2 md:py-3 md:min-w-[140px] relative group cursor-pointer`}
-              onClick={() => setMenuOpen(false)}
+              className={`py-2 lg1180:py-3 lg1180:min-w-[140px] relative group cursor-pointer transform transition-transform duration-300 ${
+                activeIndex === index
+                  ? "scale-110 text-blue-600"
+                  : "hover:scale-105 hover:text-blue-600"
+              }`}
+              onClick={() => {
+                setMenuOpen(false);
+                handleTap(index);
+              }}
+              onKeyDown={(e) => handleKeyDown(e, index)}
+              tabIndex={0}
+              aria-expanded={activeIndex === index}
+              aria-haspopup="true"
             >
               <Link
                 to={link}
-                className={`block transition-colors duration-300 hover:text-blue-600 ${
-                  menuOpen ? "text-left" : "text-center md:text-left"
+                className={`block relative px-2 py-2 transition-colors duration-300 ${
+                  menuOpen ? "text-left" : "text-center lg1180:text-left"
                 }`}
               >
                 {label}
+                {/* Animated underline */}
+                <span
+                  className={`absolute left-1/2 bottom-0 w-0 h-[2px] bg-blue-600 rounded-full transition-all duration-300 ease-in-out ${
+                    activeIndex === index ? "w-full left-0" : "group-hover:w-full group-hover:left-0"
+                  }`}
+                  aria-hidden="true"
+                />
               </Link>
-              {/* Underline on hover */}
-              <span
-                className="absolute left-1/2 bottom-0 w-0 h-[2px] bg-blue-600 transition-all duration-300 ease-in-out group-hover:w-full group-hover:left-0"
-                aria-hidden="true"
-              />
             </li>
           ))}
         </ul>
