@@ -36,7 +36,7 @@ export default function App() {
           {/* Offer Zone Routes */}
           <Route path="/best-seller" element={<BestSeller />} />
           <Route path="/mustard-oil" element={<MustardOil />} />
-          <Route path="/ghee" element={<Ghee />} />
+          <Route path="/ghe" element={<Ghee />} />
           <Route path="/dates" element={<Dates />} />
           <Route path="/khajur-gur" element={<KhajurGur />} />
           <Route path="/honey" element={<Honey />} />

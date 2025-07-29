@@ -2,7 +2,7 @@
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-gray-50 pt-[125px] lg1100:pt-[100px] lg1180:pt-[270px] w-full">
+    <main className="min-h-screen bg-gray-50 pt-[125px] lg1100:pt-[100px] lg1180:pt-[200px] w-full">
 
       {/* Hero Section */}
       <section className="relative bg-gradient-to-r from-blue-500 to-cyan-400 text-white flex flex-col justify-center items-center text-center py-24 sm:py-28 md:py-32 px-4 sm:px-8 md:px-12 overflow-hidden w-full">

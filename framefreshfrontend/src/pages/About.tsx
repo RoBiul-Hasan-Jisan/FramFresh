@@ -2,7 +2,7 @@
 
 export default function About() {
   return (
-    <main className="min-h-screen bg-gray-50 pt-[125px] md:pt-[240px] w-full">
+    <main className="min-h-screen bg-gray-50 pt-[125px] md:pt-[200px] w-full">
     <section className="min-h-[80vh] px-4 md:px-16 py-20 bg-gradient-to-br from-purple-950 via-black to-indigo-900 text-white">
       <div className="max-w-5xl mx-auto text-center space-y-12">
         {/* Heading */}

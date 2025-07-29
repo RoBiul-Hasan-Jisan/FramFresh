@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import type { KeyboardEvent } from "react"; // <--- type-only import
+import type { KeyboardEvent } from "react";
 import { Link } from "react-router-dom";
 import { FaSearch, FaUser, FaShoppingCart, FaBars } from "react-icons/fa";
 
@@ -19,7 +19,7 @@ export default function Navbar() {
   const navLinks: NavLink[] = [
     ["Best Seller", "/best-seller"],
     ["Mustard Oil", "/mustard-oil"],
-    ["Ghee (ঘি)", "/ghee"],
+    ["Ghee (ঘি)", "/ghe"],
     ["Dates (খেজুর)", "/dates"],
     ["খেজুর গুড়", "/khajur-gur"],
     ["Honey", "/honey"],
@@ -75,7 +75,7 @@ export default function Navbar() {
           </button>
 
           <div
-            className="hover:text-blue-600 cursor-pointer transition-transform duration-300 hover:scale-110"
+            className="hover:text-blue-600 cursor-pointer transition-all duration-300 ease-in-out hover:scale-110 active:scale-95"
             aria-label="Search"
             role="button"
             tabIndex={0}
@@ -90,74 +90,110 @@ export default function Navbar() {
         {/* Center: Logo */}
         <div className="w-1/3 flex justify-center">
           <Link to="/" className="inline-block">
+            {/* Logo for mobile (hamburger visible) */}
             <img
               src="/image/clogo2.png"
-              alt="FrameFresh Logo"
-              className="mx-auto max-w-[120px] sm:max-w-[140px] lg1180:max-w-[150px] h-auto"
+              alt="Mobile Logo"
+              className="mx-auto max-w-[100px] sm:max-w-[120px] h-auto block lg1180:hidden"
+            />
+
+            {/* Logo for large screens (hamburger hidden) */}
+            <img
+              src="/image/clogo2.png"
+              alt="Desktop Logo"
+              className="mx-auto max-w-[140px] lg1180:max-w-[160px] h-auto hidden lg1180:block"
             />
           </Link>
         </div>
 
         {/* Right */}
         <div className="flex items-center gap-4 w-1/3 justify-end text-gray-700 text-lg lg1180:text-xl">
-          <div className="hover:text-blue-600 cursor-pointer transition-transform duration-300 hover:scale-110" role="button" tabIndex={0}>
+          <div className="hover:text-blue-600 cursor-pointer transition-all duration-300 ease-in-out hover:scale-110 active:scale-95" role="button" tabIndex={0}>
             <FaUser />
           </div>
-
-          <div className="hover:text-blue-600 cursor-pointer transition-transform duration-300 hover:scale-110" role="button" tabIndex={0}>
+          <div className="hover:text-blue-600 cursor-pointer transition-all duration-300 ease-in-out hover:scale-110 active:scale-95" role="button" tabIndex={0}>
             <FaShoppingCart />
           </div>
         </div>
       </div>
 
-      {/* Navigation Menu */}
-      <nav
-        className={`bg-white border-b border-gray-200 lg1180:static lg1180:overflow-visible transition-[max-height,opacity,padding] duration-500 ease-in-out ${
-          menuOpen ? "max-h-screen opacity-100 py-2 px-4" : "max-h-0 opacity-0 px-4"
-        } lg1180:max-h-full lg1180:opacity-100 lg1180:px-0`}
-        style={{ maxWidth: "1200px", margin: "0 auto" }}
+     {/* Desktop Navigation Menu */}
+<nav
+  className="bg-white border-b border-gray-200 transition-all duration-300 ease-in-out hidden lg1180:block"
+  style={{ maxWidth: "1100px", margin: "0 auto" }}
+>
+  <ul className="font-medium text-gray-700 px-2 py-1 flex flex-wrap justify-center gap-3">
+    {navLinks.map(([label, link], index) => (
+      <li
+        key={link}
+        className={`py-1 min-w-[90px] text-sm relative group cursor-pointer transition-transform duration-300 ease-in-out ${
+          activeIndex === index ? "text-blue-600" : "hover:text-blue-600"
+        }`}
+        onClick={() => handleTap(index)}
+        onKeyDown={(e) => handleKeyDown(e, index)}
+        tabIndex={0}
+        aria-expanded={activeIndex === index}
+        aria-haspopup="true"
       >
-        <ul
-          className={`font-medium text-gray-700 space-y-1 lg1180:space-y-0 lg1180:flex lg1180:flex-wrap lg1180:justify-center lg1180:gap-8 ${
-            menuOpen ? "text-left" : ""
-          }`}
+        <Link
+          to={link}
+          className="block px-2 py-[2px] rounded-md transition-colors duration-300 hover:bg-blue-50 text-center"
         >
-          {navLinks.map(([label, link], index) => (
-            <li
-              key={link}
-              className={`py-2 lg1180:py-3 lg1180:min-w-[140px] relative group cursor-pointer transform transition-transform duration-300 ${
-                activeIndex === index
-                  ? "scale-110 text-blue-600"
-                  : "hover:scale-105 hover:text-blue-600"
-              }`}
-              onClick={() => {
-                setMenuOpen(false);
-                handleTap(index);
-              }}
-              onKeyDown={(e) => handleKeyDown(e, index)}
-              tabIndex={0}
-              aria-expanded={activeIndex === index}
-              aria-haspopup="true"
-            >
-              <Link
-                to={link}
-                className={`block relative px-2 py-2 transition-colors duration-300 ${
-                  menuOpen ? "text-left" : "text-center lg1180:text-left"
-                }`}
-              >
-                {label}
-                {/* Animated underline */}
-                <span
-                  className={`absolute left-1/2 bottom-0 w-0 h-[2px] bg-blue-600 rounded-full transition-all duration-300 ease-in-out ${
-                    activeIndex === index ? "w-full left-0" : "group-hover:w-full group-hover:left-0"
-                  }`}
-                  aria-hidden="true"
-                />
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
+          {label}
+          <span
+            className={`absolute left-0 bottom-0 w-0 h-[1.5px] bg-blue-600 rounded-full transition-all duration-300 ease-in-out ${
+              activeIndex === index ? "w-full" : "group-hover:w-full"
+            }`}
+            aria-hidden="true"
+          />
+        </Link>
+      </li>
+    ))}
+  </ul>
+</nav>
+
+
+{/* Mobile Hamburger Menu (Only When Open) */}
+{menuOpen && (
+ <nav className="bg-white border-t border-gray-200 lg1180:hidden h-[66vh] w-[66vw] overflow-y-auto">
+  {/* Optional Logo or Heading */}
+
+
+  <ul className="font-medium text-gray-700 px-4 py-3 space-y-2">
+    {navLinks.map(([label, link], index) => (
+      <li
+        key={link}
+        className={`py-2 relative group cursor-pointer transition-transform duration-300 ease-in-out ${
+          activeIndex === index ? "text-blue-600" : "hover:text-blue-600"
+        }`}
+        onClick={() => {
+          setMenuOpen(false);
+          handleTap(index);
+        }}
+        onKeyDown={(e) => handleKeyDown(e, index)}
+        tabIndex={0}
+        aria-expanded={activeIndex === index}
+        aria-haspopup="true"
+      >
+        <Link
+          to={link}
+          className="block px-3 py-2 rounded-md transition-colors duration-300 hover:bg-blue-50 text-left"
+        >
+          {label}
+          <span
+            className={`absolute left-0 bottom-0 w-0 h-[2px] bg-blue-600 rounded-full transition-all duration-300 ease-in-out ${
+              activeIndex === index ? "w-full" : "group-hover:w-full"
+            }`}
+            aria-hidden="true"
+          />
+        </Link>
+      </li>
+    ))}
+  </ul>
+</nav>
+
+)}
+
     </header>
   );
 }
